@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-tw" ng-app="appyApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>提案書</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="style/main.css">
+  <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-sanitize.js"></script>
+  <script src="js/main.js"></script>
+  <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
+  <script src="bower_components/lodash/dist/lodash.min.js"></script>
+
+</head>
+<body>
+<a id="top"></a>
+<div class="fb-wrapper">
+
+</div>
+<div class="container main" ng-controller="FormCtrl">
+<div id="proposalPage">
+  <div class="dec">
+    <!-- <img src="../assets/images/logo-b.png"> -->
+  </div>
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+  <form id="proposalForm" class="form-horizontal" role="form"
+    action="https://script.google.com/macros/s/AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec"
+    method="post" target="hidden_iframe" name="proposalForm">
+
+    <h1 class="text-center">批次輸入系統</h1>
+
+    <div>
+      <div class="form-group">
+        <div>
+          <label class="col-sm-2 control-label">身分證後五碼</label>
+          <div class="col-sm-5">
+            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" rocid ng-model="person.id" class="form-control" name="id" maxlength="10" placeholder="需與身分證相同 (半形英數字)">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+          <label class="col-sm-2 control-label">性別</label>
+          <div class="col-sm-3">
+            <label class="radio-inline">
+              <input type="radio" ng-model="person.gender" name="gender" id="inlineRadio1" value="男"> 男
+            </label>
+            <label class="radio-inline">
+              <input type="radio" ng-model="person.gender" name="gender" id="inlineRadio2" value="女"> 女
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="col-sm-2 control-label">電話</label>
+          <div class="col-sm-5">
+            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" rocid ng-model="person.telphone" class="form-control" name="telphone" maxlength="10">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div>
+          <label for="Occupation_{{$index}}" class="col-sm-2 control-label">職業</label>
+          <div class="col-sm-3">
+            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.occupation" class="form-control" name="occupation" placeholder="請勿超過四個字" maxlength="4">
+          </div>
+        </div>
+        <div>
+          <label class="col-sm-2 control-label">生日（民國）</label>
+          <div class="col-sm-5 form-inline">
+            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label">戶籍地址</label>
+        <div addr-set class="col-sm-10 form-inline">
+          <select addr-array ng-model="person.addrCity" class="form-control" name="city"
+            ng-change="person.addrVillage = null; person.addrDistrict = null"
+            ng-options="key for (key, value) in districts">
+            <option value="">縣市</option>
+          </select>
+          <select addr-array ng-model="person.addrDistrict" class="form-control" name="district"
+            ng-change="person.addrVillage = null"
+            ng-options="key for (key, value) in person.addrCity.contains">
+            <option value="">區域/鄉鎮</options>
+          </select>
+          <select addr-array ng-model="person.addrVillage" class="form-control" name="village"
+            ng-options="key for (key, value) in person.addrDistrict.contains">
+            <option value="">村里</options>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-3 col-sm-offset-2">
+          <div class="input-group">
+            <input onClick="this.setSelectionRange(0, this.value.length)" type="number" class="form-control" ng-model="person.addrNeighborhood"
+              name="neighborhood">
+            <span class="input-group-addon">鄰</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center submit">
+      <button type="submit" class="btn btn-primary"
+        >
+        <span class="glyphicon glyphicon-print"></span> 送出
+      </button> <a href="https://docs.google.com/spreadsheets/d/119q1KUlELT_3riojzCerfrY1zor6ma9Zlqs4inkUpjU/edit" target="_blank">結果頁</a>
+    </div>
+  </form>
+  </div>
+
+</div>
+</body>
+</html>
