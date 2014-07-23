@@ -1,9 +1,5 @@
 var appyApp = angular.module('appyApp', ['ngSanitize', 'mgo-angular-wizard']);
 
-function JSONP_CALLBACK() {
-  console.log('JSONP_CALLBACK');
-}
-
 appyApp.config(function($sceDelegateProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
     'self',
@@ -31,9 +27,10 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
   $scope.send = function() {
     $scope.sending = true;
     var url = 'https://script.google.com/macros/s/' +
-      'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec';
+      'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec' +
+      '&callback=JSON_CALLBACK';
 
-    $http.jsonp(url, $scope.person).then(function() {
+    $http.jsonp(url, $scope.person).success(function() {
       $scope.sending = false;
     });
   };
