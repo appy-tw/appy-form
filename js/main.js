@@ -11,6 +11,7 @@ appyApp.config(function($sceDelegateProvider) {
 });
 
 appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, WizardHandler) {
+  $scope.person = {};
   var mly = $http.get('data/mly-8.json');
   var constituency = $http.get('data/constituency.json');
   var districts = $http.get('data/districts.json');
@@ -24,18 +25,20 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     $scope.constituency = results[1].data;
     $scope.districts = results[2].data;
     $scope.district_info = results[3].data;
-
-    $scope.initLegislatorFilter();
+    $scope.initAddressFilter();
   });
 
   $scope.send = function() {
-    entry = {};
-    entry[1788652615] = $scope.person.id;
-    entry[534678698] = $scope.person.birthday;
-    $http.post('https://script.google.com/macros/s/AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec', entry);
-  }
+    $scope.sending = true;
+    var url = 'https://script.google.com/macros/s/' +
+      'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec';
 
-  $scope.initLegislatorFilter = function() {
+    $http.jsonp(url, $scope.person).success(function() {
+      $scope.sending = false;
+    });
+  };
+
+  $scope.initAddressFilter = function() {
     $scope.$watch('selectedCity', function(newValue, oldValue) {
       if (!newValue) {
         $scope.filteredDistricts = Object.keys($scope.constituency);

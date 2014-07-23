@@ -40,29 +40,29 @@
 
     <div>
       <div class="form-group">
-        <div>
+        <div ng-class="{ 'has-error': proposalForm.id.$invalid }">
           <label class="col-sm-2 control-label">身分證後五碼</label>
           <div class="col-sm-5">
-            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" rocid ng-model="person.id" class="form-control" name="id" maxlength="10" placeholder="需與身分證相同 (半形英數字)">
+            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" rocid required ng-model="person.id" class="form-control" name="id" maxlength="10" placeholder="需與身分證相同 (半形英數字)">
           </div>
         </div>
       </div>
       <div class="form-group">
-        <div>
+        <div ng-class="{ 'has-error': proposalForm.gender.$invalid }">
           <label class="col-sm-2 control-label">性別</label>
           <div class="col-sm-3">
             <label class="radio-inline">
-              <input type="radio" ng-model="person.gender" name="gender" id="inlineRadio1" value="男"> 男
+              <input required type="radio" ng-model="person.gender" name="gender" id="inlineRadio1" value="男"> 男
             </label>
             <label class="radio-inline">
-              <input type="radio" ng-model="person.gender" name="gender" id="inlineRadio2" value="女"> 女
+              <input required type="radio" ng-model="person.gender" name="gender" id="inlineRadio2" value="女"> 女
             </label>
           </div>
         </div>
-        <div>
+        <div ng-class="{ 'has-error': proposalForm.telphone.$invalid }">
           <label class="col-sm-2 control-label">電話</label>
-          <div class="col-sm-5">
-            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" rocid ng-model="person.telphone" class="form-control" name="telphone" maxlength="10">
+          <div class="col-sm-5  form-inline">
+            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.telphone" class="form-control" name="telphone" maxlength="10" required>
           </div>
         </div>
       </div>
@@ -112,8 +112,7 @@
     </div>
 
     <div class="text-center submit">
-      <button type="submit" class="btn btn-primary"
-        >
+      <button ng-disabled="proposalForm.$invalid || sending" type="button" class="btn btn-primary" ng-click="send()">
         <span class="glyphicon glyphicon-print"></span> 送出
       </button> <a href="https://docs.google.com/spreadsheets/d/119q1KUlELT_3riojzCerfrY1zor6ma9Zlqs4inkUpjU/edit" target="_blank">結果頁</a>
     </div>
