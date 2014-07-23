@@ -28,7 +28,7 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     $scope.sending = true;
     var url = 'https://script.google.com/macros/s/' +
       'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec' +
-      '&callback=JSON_CALLBACK';
+      '?callback=JSON_CALLBACK';
 
     $http.jsonp(url, $scope.person).success(function() {
       $scope.sending = false;
