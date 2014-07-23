@@ -1,5 +1,9 @@
 var appyApp = angular.module('appyApp', ['ngSanitize', 'mgo-angular-wizard']);
 
+function JSONP_CALLBACK() {
+  console.log('JSONP_CALLBACK');
+}
+
 appyApp.config(function($sceDelegateProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
     'self',
@@ -16,10 +20,6 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
   var constituency = $http.get('data/constituency.json');
   var districts = $http.get('data/districts.json');
   var district_info = $http.get('data/district-data.json');
-  var options = {
-    headers: { 'Content-Type': undefined },
-    transformRequest: function(data) { return data; }
-  };
 
   $q.all([mly, constituency, districts, district_info]).then(function(results) {
     $scope.constituency = results[1].data;
