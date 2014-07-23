@@ -33,7 +33,7 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     var url = 'https://script.google.com/macros/s/' +
       'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec';
 
-    $http.jsonp(url, $scope.person).success(function() {
+    $http.jsonp(url, $scope.person).then(function() {
       $scope.sending = false;
     });
   };
