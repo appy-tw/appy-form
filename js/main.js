@@ -12,10 +12,13 @@ appyApp.config(function($sceDelegateProvider) {
 
 appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, WizardHandler) {
   $scope.person = {};
+  $scope.results = [];
   var mly = $http.get('data/mly-8.json');
   var constituency = $http.get('data/constituency.json');
   var districts = $http.get('data/districts.json');
   var district_info = $http.get('data/district-data.json');
+
+  $scope.sourceList = [ '網路填寫', '網路下載', '夾報', '現場擺攤', '其他' ];
 
   $q.all([mly, constituency, districts, district_info]).then(function(results) {
     $scope.constituency = results[1].data;
@@ -27,11 +30,26 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
   $scope.send = function() {
     $scope.sending = true;
     var url = 'https://script.google.com/macros/s/' +
-      'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec' +
-      '?callback=JSON_CALLBACK';
+      'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec';
 
-    $http.jsonp(url, $scope.person).success(function() {
+    var params = angular.copy($scope.person);
+    params.callback = 'JSON_CALLBACK';
+    var config = { params: params };
+
+    params.gender = ($scope.person.id[1] === '1' ? '男' : '女');
+    params.id = params.id.substr(0, 2) + 'XXX' + params.id.substr(5, 5);
+    params.city = params.addrCity.name;
+    delete params.addrCity;
+    params.district = params.addrDistrict.name;
+    delete params.addrDistrict;
+    params.village = params.addrVillage.name;
+    delete params.addrVillage;
+
+    $http.jsonp(url, config).success(function() {
       $scope.sending = false;
+      delete params.callback;
+      $scope.results.push(params);
+      $scope.person = {};
     });
   };
 

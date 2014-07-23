@@ -48,64 +48,73 @@
         </div>
       </div>
       <div class="form-group">
-        <div ng-class="{ 'has-error': proposalForm.gender.$invalid }">
-          <label class="col-sm-2 control-label">性別</label>
+        <div ng-class="{ 'has-error': proposalForm.hasPhone.$invalid }">
+          <label class="col-sm-2 control-label">電話</label>
           <div class="col-sm-3">
             <label class="radio-inline">
-              <input required type="radio" ng-model="person.gender" name="gender" id="inlineRadio1" value="男"> 男
+              <input required type="radio" ng-model="person.hasPhone" name="hasPhone" id="inlineRadio1" value="Y"> 有
             </label>
             <label class="radio-inline">
-              <input required type="radio" ng-model="person.gender" name="gender" id="inlineRadio2" value="女"> 女
+              <input required type="radio" ng-model="person.hasPhone" name="hasPhone" id="inlineRadio2" value="N"> 無
             </label>
-          </div>
-        </div>
-        <div ng-class="{ 'has-error': proposalForm.telphone.$invalid }">
-          <label class="col-sm-2 control-label">電話</label>
-          <div class="col-sm-5  form-inline">
-            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.telphone" class="form-control" name="telphone" maxlength="10" required>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <div>
+        <div ng-class="{ 'has-error': proposalForm.occupation.$invalid }">
           <label for="Occupation_{{$index}}" class="col-sm-2 control-label">職業</label>
           <div class="col-sm-3">
-            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.occupation" class="form-control" name="occupation" placeholder="請勿超過四個字" maxlength="4">
+            <input required type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.occupation" class="form-control" name="occupation" placeholder="請勿超過四個字" maxlength="4">
           </div>
         </div>
-        <div>
+        <div ng-class="{ 'has-error': proposalForm.birthday.$invalid }">
           <label class="col-sm-2 control-label">生日（民國）</label>
           <div class="col-sm-5 form-inline">
-            <input type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday">
+            <input type="text" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday" placeholder="範例：730115">
           </div>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{ 'has-error': proposalForm.village.$invalid }">
         <label class="col-sm-2 control-label">戶籍地址</label>
         <div addr-set class="col-sm-10 form-inline">
-          <select addr-array ng-model="person.addrCity" class="form-control" name="city"
+          <select required
+            addr-array ng-model="person.addrCity" class="form-control" name="city"
             ng-change="person.addrVillage = null; person.addrDistrict = null"
             ng-options="key for (key, value) in districts">
             <option value="">縣市</option>
           </select>
-          <select addr-array ng-model="person.addrDistrict" class="form-control" name="district"
+          <select required
+            addr-array ng-model="person.addrDistrict" class="form-control" name="district"
             ng-change="person.addrVillage = null"
             ng-options="key for (key, value) in person.addrCity.contains">
             <option value="">區域/鄉鎮</options>
           </select>
-          <select addr-array ng-model="person.addrVillage" class="form-control" name="village"
+          <select required
+            addr-array ng-model="person.addrVillage" class="form-control" name="village"
             ng-options="key for (key, value) in person.addrDistrict.contains">
             <option value="">村里</options>
           </select>
         </div>
       </div>
       <div class="form-group">
-        <div class="col-sm-3 col-sm-offset-2">
-          <div class="input-group">
-            <input onClick="this.setSelectionRange(0, this.value.length)" type="number" class="form-control" ng-model="person.addrNeighborhood"
-              name="neighborhood">
-            <span class="input-group-addon">鄰</span>
+        <div ng-class="{ 'has-error': proposalForm.hasEdit.$invalid }">
+          <label class="col-sm-2 control-label">是否修正過</label>
+          <div class="col-sm-3">
+            <label class="radio-inline">
+              <input required type="radio" ng-model="person.hasEdit" name="hasEdit" id="inlineRadio1" value="Y"> 有
+            </label>
+            <label class="radio-inline">
+              <input required type="radio" ng-model="person.hasEdit" name="hasEdit" id="inlineRadio2" value="N"> 無
+            </label>
+          </div>
+          <div ng-class="{ 'has-error': proposalForm.source.$invalid }">
+            <label class="col-sm-2 control-label">連署資料來源</label>
+            <div class="col-sm-3 form-inline">
+              <select required name="source" class="form-control" ng-model="person.source" ng-options="src for src in sourceList">
+                <option value="">-- choose color --</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -115,6 +124,13 @@
       <button ng-disabled="proposalForm.$invalid || sending" type="button" class="btn btn-primary" ng-click="send()">
         <span class="glyphicon glyphicon-print"></span> 送出
       </button> <a href="https://docs.google.com/spreadsheets/d/119q1KUlELT_3riojzCerfrY1zor6ma9Zlqs4inkUpjU/edit" target="_blank">結果頁</a>
+    </div>
+    <div class="result">
+      <ul>
+        <li ng-repeat="res in results">
+          {{res}}
+        </li>
+      </li>
     </div>
   </form>
   </div>
