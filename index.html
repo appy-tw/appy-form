@@ -70,7 +70,7 @@
         <div ng-class="{ 'has-error': proposalForm.birthday.$invalid }">
           <label class="col-sm-2 control-label">生日（民國）</label>
           <div class="col-sm-5 form-inline">
-            <input type="text" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday" placeholder="範例：730115">
+            <input type="text" ng-pattern="/^[0-9]{6,6}$/" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday" placeholder="範例：730115">
           </div>
         </div>
       </div>
