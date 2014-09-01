@@ -40,41 +40,27 @@
 
     <div>
       <div class="form-group">
+        <div ng-class="{ 'has-error': proposalForm.date.$invalid }">
+          <label for="date" class="col-sm-2 control-label">填寫日期</label>
+          <div class="col-sm-3">
+            <input required type="text" ng-pattern="/^[0-9]{6,6}$/" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.date" class="form-control" name="date" placeholder="範例：140212" maxlength="6">
+          </div>
+        </div>
+        <div ng-class="{ 'has-error': proposalForm.serialnumber.$invalid }">
+          <label for="serialnumber" class="col-sm-2 control-label">流水號</label>
+          <div class="col-sm-5 form-inline">
+            <input type="text" ng-pattern="/^[0-9]{6,6}$/" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.serialnumber" class="form-control" name="serialnumber" maxlength="6">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
         <div ng-class="{ 'has-error': proposalForm.id.$invalid }">
-          <label class="col-sm-2 control-label">身分證後五碼</label>
+          <label class="col-sm-2 control-label">身分證</label>
           <div class="col-sm-5">
             <input type="text" onClick="this.setSelectionRange(0, this.value.length)" rocid required ng-model="person.id" class="form-control" name="id" maxlength="10" placeholder="需與身分證相同 (半形英數字)">
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <div ng-class="{ 'has-error': proposalForm.hasPhone.$invalid }">
-          <label class="col-sm-2 control-label">電話</label>
-          <div class="col-sm-3">
-            <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasPhone" name="hasPhone" id="inlineRadio1" value="Y"> 有
-            </label>
-            <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasPhone" name="hasPhone" id="inlineRadio2" value="N"> 無
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div ng-class="{ 'has-error': proposalForm.occupation.$invalid }">
-          <label for="Occupation_{{$index}}" class="col-sm-2 control-label">職業</label>
-          <div class="col-sm-3">
-            <input required type="text" onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.occupation" class="form-control" name="occupation" placeholder="請勿超過四個字" maxlength="4">
-          </div>
-        </div>
-        <div ng-class="{ 'has-error': proposalForm.birthday.$invalid }">
-          <label class="col-sm-2 control-label">生日（民國）</label>
-          <div class="col-sm-5 form-inline">
-            <input type="text" ng-pattern="/^[0-9]{6,6}$/" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday" placeholder="範例：730115">
-          </div>
-        </div>
-      </div>
-
       <div class="form-group" ng-class="{ 'has-error': proposalForm.village.$invalid }">
         <label class="col-sm-2 control-label">戶籍地址</label>
         <div addr-set class="col-sm-10 form-inline">
@@ -98,23 +84,40 @@
         </div>
       </div>
       <div class="form-group">
-        <div ng-class="{ 'has-error': proposalForm.hasEdit.$invalid }">
-          <label class="col-sm-2 control-label">是否修正過</label>
+        <div ng-class="{ 'has-error': proposalForm.hasQrcode.$invalid }">
+          <label class="col-sm-2 control-label">有無 QRCode</label>
           <div class="col-sm-3">
             <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasEdit" name="hasEdit" id="inlineRadio1" value="Y"> 有
+              <input required type="radio" ng-model="person.hasQrcode" name="hasQrcode" id="inlineRadio1" value="Y"> 有
             </label>
             <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasEdit" name="hasEdit" id="inlineRadio2" value="N"> 無
+              <input required type="radio" ng-model="person.hasQrcode" name="hasQrcode" id="inlineRadio2" value="N"> 無
             </label>
           </div>
-          <div ng-class="{ 'has-error': proposalForm.source.$invalid }">
-            <label class="col-sm-2 control-label">連署資料來源</label>
-            <div class="col-sm-3 form-inline">
-              <select required name="source" class="form-control" ng-model="person.source" ng-options="src for src in sourceList">
-                <option value="">-- choose color --</option>
-              </select>
-            </div>
+        </div>
+        <div ng-class="{ 'has-error': proposalForm.hasFStamp.$invalid }">
+          <label class="col-sm-2 control-label">有無 F 章</label>
+          <div class="col-sm-3">
+            <label class="radio-inline">
+              <input required type="radio" ng-model="person.hasFStamp" name="hasFStamp" id="inlineRadio1" value="Y"> 有
+            </label>
+            <label class="radio-inline">
+              <input required type="radio" ng-model="person.hasFStamp" name="hasFStamp" id="inlineRadio2" value="N"> 無
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div ng-class="{ 'has-error': proposalForm.birthday.$invalid }">
+          <label class="col-sm-2 control-label">出生年（民國）</label>
+          <div class="col-sm-3 form-inline">
+            <input type="text" ng-pattern="/^[0-9]{2,2}$/" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.birthday" class="form-control" name="birthday" placeholder="範例：73" maxlength="2">
+          </div>
+        </div>
+        <div ng-class="{ 'has-error': proposalForm.phone.$invalid }">
+          <label for="phone" class="col-sm-2 control-label">電話</label>
+          <div class="col-sm-3 form-inline">
+            <input type="tel" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.phone" class="form-control" name="phone">
           </div>
         </div>
       </div>

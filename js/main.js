@@ -36,8 +36,6 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     params.callback = 'JSON_CALLBACK';
     var config = { params: params };
 
-    params.gender = ($scope.person.id[1] === '1' ? '男' : '女');
-    params.id = params.id.substr(0, 2) + 'XXX' + params.id.substr(5, 5);
     params.city = params.addrCity.name;
     delete params.addrCity;
     params.district = params.addrDistrict.name;
