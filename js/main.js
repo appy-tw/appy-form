@@ -47,7 +47,11 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
       $scope.sending = false;
       delete params.callback;
       $scope.results.push(params);
+      var date = $scope.person.date;
+      var sn = $scope.person.serialnumber;
       $scope.person = {};
+      $scope.person.date = date;
+      $scope.person.serialnumber = sn;
     });
   };
 
