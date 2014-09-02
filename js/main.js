@@ -22,9 +22,16 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
 
   $q.all([mly, constituency, districts, district_info]).then(function(results) {
     $scope.constituency = results[1].data;
-    $scope.districts = results[2].data;
     $scope.district_info = results[3].data;
     $scope.initAddressFilter();
+
+    $scope.districts = {};
+    angular.forEach(results[2].data, function(value, key) {
+      if (key === '高雄市' || key === '新北市' || key === '臺中市' ||
+        key === '臺北市') {
+        $scope.districts[key] = value;
+      }
+    })
   });
 
   $scope.send = function() {
