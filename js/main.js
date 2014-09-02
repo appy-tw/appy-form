@@ -51,7 +51,6 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     params.done = false;
 
     $scope.results.push(params);
-    delete params.callback;
     var date = $scope.person.date;
     var sn = $scope.person.serialnumber;
     $scope.person = {};
