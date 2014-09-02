@@ -296,3 +296,11 @@ ul.steps-indicator {
   width: 90%;
   margin: auto;
 }
+
+.glyphicon-time {
+  color: #f57900;
+}
+
+.glyphicon-ok {
+  color: #4e9a06;
+}
