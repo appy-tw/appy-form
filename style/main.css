@@ -291,3 +291,8 @@ ul.steps-indicator {
 .addr-label > a {
   color: white;
 }
+
+.result > table {
+  width: 90%;
+  margin: auto;
+}

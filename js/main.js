@@ -35,7 +35,6 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
   });
 
   $scope.send = function() {
-    $scope.sending = true;
     var url = 'https://script.google.com/macros/s/' +
       'AKfycbwi2ztrEetA6YRcnbSRbE1c6ntJN2Fb0BnaU83VD60LhF2ZAgM/exec';
 
@@ -49,16 +48,18 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     delete params.addrDistrict;
     params.village = params.addrVillage.name;
     delete params.addrVillage;
+    params.done = false;
+
+    $scope.results.push(params);
+    delete params.callback;
+    var date = $scope.person.date;
+    var sn = $scope.person.serialnumber;
+    $scope.person = {};
+    $scope.person.date = date;
+    $scope.person.serialnumber = sn;
 
     $http.jsonp(url, config).success(function() {
-      $scope.sending = false;
-      delete params.callback;
-      $scope.results.push(params);
-      var date = $scope.person.date;
-      var sn = $scope.person.serialnumber;
-      $scope.person = {};
-      $scope.person.date = date;
-      $scope.person.serialnumber = sn;
+      params.done = true;
     });
   };
 
@@ -103,6 +104,9 @@ function getID(id) {
 }
 
 function idCheck(id) {
+  if (!id) {
+    return false;
+  }
   var newIdArray= getID(id);
 
   var baseNumber=

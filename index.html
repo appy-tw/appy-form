@@ -161,11 +161,33 @@
       </button> <a href="https://docs.google.com/spreadsheets/d/119q1KUlELT_3riojzCerfrY1zor6ma9Zlqs4inkUpjU/edit" target="_blank">結果頁</a>
     </div>
     <div class="result">
-      <ul>
-        <li ng-repeat="res in results">
-          {{res}}
-        </li>
-      </li>
+      <table>
+        <tr>
+          <th>狀態</th>
+          <th>日期</th>
+          <th>流水號</th>
+          <th>ID</th>
+          <th>出生年</th>
+          <th>里</th>
+          <th>QRcode</th>
+          <th>F 章</th>
+          <th>電話</th>
+        </tr>
+        <tr ng-repeat="res in results">
+          <td ng-switch on="res.done">
+            <span ng-switch-when="false" class="glyphicon glyphicon-time"></span>
+            <span ng-switch-when="true" class="glyphicon glyphicon-ok"></span>
+          </td>
+          <td>{{res.date}}</td>
+          <td>{{res.serialnumber}}</td>
+          <td>{{res.id}}</td>
+          <td>{{res.birthday}}</td>
+          <td>{{res.village}}</td>
+          <td>{{res.hasQrcode}}</td>
+          <td>{{res.hasFStamp}}</td>
+          <td>{{res.phone}}</td>
+        </tr>
+      </table>
     </div>
   </form>
   </div>
