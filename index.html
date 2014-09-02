@@ -83,6 +83,38 @@
           </select>
         </div>
       </div>
+      <div class="panel-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              縣市
+            </h4>
+          </div>
+          <div class="panel-body">
+            <span ng-repeat="(key, value) in districts" class="label label-primary addr-label"><a href="#" ng-click="onCityClick()">{{key}}</a></span>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              區域/鄉鎮
+            </h4>
+          </div>
+          <div class="panel-body">
+            <span ng-repeat="(key, value) in person.addrCity.contains" class="label label-primary addr-label"><a href="#" ng-click="onDistrictClick()">{{key}}</a></span>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              村里
+            </h4>
+          </div>
+          <div class="panel-body">
+            <span ng-repeat="(key, value) in person.addrDistrict.contains" class="label label-primary addr-label"><a href="#" ng-click="onVillageClick()">{{key}}</a></span>
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <div ng-class="{ 'has-error': proposalForm.hasQrcode.$invalid }">
           <label class="col-sm-2 control-label">有無 QRCode</label>

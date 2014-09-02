@@ -69,6 +69,18 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
       });
     });
   };
+
+  $scope.onCityClick = function() {
+    $scope.person.addrCity = $scope.districts[this.key];
+  };
+
+  $scope.onDistrictClick = function() {
+    $scope.person.addrDistrict = $scope.person.addrCity.contains[this.key];
+  };
+
+  $scope.onVillageClick = function() {
+    $scope.person.addrVillage = $scope.person.addrDistrict.contains[this.key];
+  }
 });
 
 function getID(id) {

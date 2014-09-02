@@ -281,3 +281,13 @@ ul.steps-indicator {
   display: inline-block;
   padding: 20px;
 }
+
+.addr-label {
+  font-size: 14px;
+  margin: 5px;
+  line-height: 30px;
+}
+
+.addr-label > a {
+  color: white;
+}
