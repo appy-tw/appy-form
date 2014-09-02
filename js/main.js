@@ -18,20 +18,32 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
   var districts = $http.get('data/districts.json');
   var district_info = $http.get('data/district-data.json');
 
-  $scope.sourceList = [ '網路填寫', '網路下載', '夾報', '現場擺攤', '其他' ];
-
   $q.all([mly, constituency, districts, district_info]).then(function(results) {
     $scope.constituency = results[1].data;
     $scope.district_info = results[3].data;
     $scope.initAddressFilter();
 
     $scope.districts = {};
-    angular.forEach(results[2].data, function(value, key) {
-      if (key === '高雄市' || key === '新北市' || key === '臺中市' ||
-        key === '臺北市') {
-        $scope.districts[key] = value;
+    var cities = ['高雄市', '新北市', '臺中市', '臺北市'];
+    angular.forEach(cities, function(city) {
+      $scope.districts[city] = angular.copy(results[2].data[city]);
+      $scope.districts[city].contains = {};
+      var ds;
+
+      if (city === '高雄市') {
+        ds = ['楠梓區', '左營區', '前鎮區', '小港區'];
+      } else if (city === '新北市') {
+        ds = ['石門區', '三芝區', '淡水區', '八里區', '林口區', '泰山區',
+          '板橋區'];
+      } else if (city === '臺中市') {
+        ds = ['西屯區', '南屯區'];
+      } else if (city === '臺北市') {
+        ds = ['南港區', '內湖區'];
       }
-    })
+      angular.forEach(ds, function(d) {
+        $scope.districts[city].contains[d] = results[2].data[city].contains[d];
+      });
+    });
   });
 
   $scope.send = function() {

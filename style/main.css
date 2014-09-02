@@ -284,8 +284,8 @@ ul.steps-indicator {
 
 .addr-label {
   font-size: 14px;
-  margin: 5px;
-  line-height: 30px;
+  margin: 3px;
+  display: inline-block;
 }
 
 .addr-label > a {
