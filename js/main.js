@@ -1,4 +1,4 @@
-var appyApp = angular.module('appyApp', ['ngSanitize', 'mgo-angular-wizard']);
+var appyApp = angular.module('appyApp', ['ngSanitize', 'mgo-angular-wizard', 'angucomplete']);
 
 appyApp.config(function($sceDelegateProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
@@ -13,15 +13,66 @@ appyApp.config(function($sceDelegateProvider) {
 appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, WizardHandler) {
   $scope.person = {};
   $scope.results = [];
+  $scope.serialnumberMapping = {
+    num: {
+      '01': ['新北市', '板橋區'],
+      '02': ['新北市', '板橋區'],
+      '03': ['臺北市', '內湖區'],
+      '04': ['臺北市', '南港區'],
+      '05': ['新北市', '石門區'],
+      '06': ['新北市', '三芝區'],
+      '07': ['新北市', '淡水區'],
+      '08': ['新北市', '八里區'],
+      '09': ['新北市', '林口區'],
+      '10': ['新北市', '泰山區']
+    },
+    name: {
+      '新北市板橋區': ['01', '02'],
+      '臺北市內湖區': ['03'],
+      '臺北市南港區': ['04'],
+      '新北市石門區': ['05'],
+      '新北市三芝區': ['06'],
+      '新北市淡水區': ['07'],
+      '新北市八里區': ['08'],
+      '新北市林口區': ['09'],
+      '新北市泰山區': ['10']
+    }
+  };
   var mly = $http.get('data/mly-8.json');
   var constituency = $http.get('data/constituency.json');
   var districts = $http.get('data/districts.json');
   var district_info = $http.get('data/district-data.json');
 
+  function selectArea(city, district) {
+    $scope.person.addrCity = $scope.districts[city];
+    $scope.person.addrDistrict = $scope.person.addrCity.contains[district];
+    delete $scope.person.addrVillage;
+  }
+
   $q.all([mly, constituency, districts, district_info]).then(function(results) {
     $scope.constituency = results[1].data;
     $scope.district_info = results[3].data;
     $scope.initAddressFilter();
+    $scope.villages = [];
+
+    $scope.$watch('selectedAddr', function(newValue) {
+      if (newValue) {
+        var item = newValue.originalObject;
+        $scope.person.addrCity = $scope.districts[item.city];
+        $scope.person.addrDistrict = $scope.person.addrCity.contains[item.district];
+        $scope.person.addrVillage = $scope.person.addrDistrict.contains[item.village];
+      }
+    });
+
+    $scope.$watch('person.serialnumber', function(newValue, oldValue) {
+      if (newValue && newValue.length === 6) {
+        var num = newValue.substr(0, 2);
+
+        if ($scope.serialnumberMapping.num[num]) {
+          selectArea.apply(null, $scope.serialnumberMapping.num[num]);
+        }
+      }
+    });
 
     $scope.districts = {};
     var cities = ['高雄市', '新北市', '臺中市', '臺北市'];
@@ -42,9 +93,30 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
       }
       angular.forEach(ds, function(d) {
         $scope.districts[city].contains[d] = results[2].data[city].contains[d];
+        angular.forEach($scope.districts[city].contains[d].contains, function(value, key) {
+          var item = {
+            city: city,
+            district: d,
+            village: key
+          }
+          $scope.villages.push(item);
+        })
       });
     });
   });
+
+  $scope.getLabel = function(type) {
+    var label = 'label-default';
+    if (!$scope.districts) {
+      return label;
+    }
+
+    if ($scope.person['addr' + type] && $scope.person['addr' + type].name === this.key) {
+      return 'label-primary';
+    }
+
+    return label;
+  };
 
   $scope.send = function() {
     var url = 'https://script.google.com/macros/s/' +

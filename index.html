@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="style/main.css">
   <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css">
+  <link rel="stylesheet" href="bower_components/angucomplete/angucomplete.css">
   <!-- Latest compiled and minified JavaScript -->
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -19,6 +20,7 @@
   <script src="js/main.js"></script>
   <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
   <script src="bower_components/lodash/dist/lodash.min.js"></script>
+  <script src="bower_components/angucomplete/angucomplete.js"></script>
 
 </head>
 <body>
@@ -83,6 +85,22 @@
           </select>
         </div>
       </div>
+      <div class="form-group">
+        <div ng-class="{ 'has-error': proposalForm.village.$invalid }">
+          <label class="col-sm-2 control-label">村里快速輸入</label>
+          <div class="col-sm-5">
+            <angucomplete id="village-search"
+              placeholder="輸入村里即可"
+              pause="100"
+              selectedobject="selectedAddr"
+              localdata="villages"
+              searchfields="village"
+              titlefield="city,district,village"
+              minlength="1"
+              inputclass="form-control"/>
+          </div>
+        </div>
+      </div>
       <div class="panel-group">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -91,7 +109,7 @@
             </h4>
           </div>
           <div class="panel-body">
-            <span ng-repeat="(key, value) in districts" class="label label-primary addr-label"><a href="#" ng-click="onCityClick()">{{key}}</a></span>
+            <span ng-repeat="(key, value) in districts" class="label addr-label" ng-class="getLabel('City')"><a href="#" ng-click="onCityClick()">{{key}}</a></span>
           </div>
         </div>
         <div class="panel panel-default">
@@ -101,7 +119,7 @@
             </h4>
           </div>
           <div class="panel-body">
-            <span ng-repeat="(key, value) in person.addrCity.contains" class="label label-primary addr-label"><a href="#" ng-click="onDistrictClick()">{{key}}</a></span>
+            <span ng-repeat="(key, value) in person.addrCity.contains" class="label addr-label" ng-class="getLabel('District')"><a href="#" ng-click="onDistrictClick()">{{key}}</a></span>
           </div>
         </div>
         <div class="panel panel-default">
@@ -111,7 +129,7 @@
             </h4>
           </div>
           <div class="panel-body">
-            <span ng-repeat="(key, value) in person.addrDistrict.contains" class="label label-primary addr-label"><a href="#" ng-click="onVillageClick()">{{key}}</a></span>
+            <span ng-repeat="(key, value) in person.addrDistrict.contains" class="label addr-label" ng-class="getLabel('Village')"><a href="#" ng-click="onVillageClick()">{{key}}</a></span>
           </div>
         </div>
       </div>
