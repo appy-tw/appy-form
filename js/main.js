@@ -75,32 +75,64 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     });
 
     $scope.districts = {};
-    var cities = ['高雄市', '新北市', '臺中市', '臺北市'];
-    angular.forEach(cities, function(city) {
-      $scope.districts[city] = angular.copy(results[2].data[city]);
-      $scope.districts[city].contains = {};
-      var ds;
+    var ids = ['TPQ,6', 'TPE,4', 'TPQ,1'];
 
-      if (city === '高雄市') {
-        ds = ['楠梓區', '左營區', '前鎮區', '小港區'];
-      } else if (city === '新北市') {
-        ds = ['石門區', '三芝區', '淡水區', '八里區', '林口區', '泰山區',
-          '板橋區'];
-      } else if (city === '臺中市') {
-        ds = ['西屯區', '南屯區'];
-      } else if (city === '臺北市') {
-        ds = ['南港區', '內湖區'];
+    var places = {};
+    angular.forEach(ids, function(id) {
+      var constituency = $scope.constituency[id];
+      angular.forEach(constituency, function(area) {
+        var cur = places;
+        var prev;
+        var parts = area.split(',');
+        angular.forEach(parts, function(placename, index) {
+          if (!cur[placename]) {
+            cur[placename] = (index >= parts.length - 1) ? true : {};
+          }
+          cur = cur[placename];
+        });
+      });
+    });
+    console.log(JSON.stringify(places, null, 2));
+
+    angular.forEach(results[2].data, function(cityContent, cityName) {
+      if (places[cityName] === true) {
+        $scope.districts[cityName] = cityContent;
+      } else {
+        angular.forEach(cityContent.contains, function(districtContent, districtName) {
+          if (places[cityName] && places[cityName][districtName] === true) {
+            if (!$scope.districts[cityName]) {
+              $scope.districts[cityName] = { contains: {} };
+            }
+            $scope.districts[cityName].contains[districtName] = districtContent;
+          } else {
+            angular.forEach(districtContent.contains, function(villageContent, villageName) {
+              if (places[cityName] && places[cityName][districtName] && places[cityName][districtName][villageName] === true) {
+                if (!$scope.districts[cityName]) {
+                  $scope.districts[cityName] = { contains: {} };
+                }
+                if (!$scope.districts[cityName].contains[districtName]) {
+                  $scope.districts[cityName].contains[districtName] = { contains: {}};
+                }
+                $scope.districts[cityName].contains[districtName].contains[villageName] = villageContent;
+              }
+            });
+          }
+        });
       }
-      angular.forEach(ds, function(d) {
-        $scope.districts[city].contains[d] = results[2].data[city].contains[d];
-        angular.forEach($scope.districts[city].contains[d].contains, function(value, key) {
+    });
+
+    console.log($scope.districts);
+
+    angular.forEach($scope.districts, function(districts, cityName) {
+      angular.forEach(districts.contains, function(villages, districtName) {
+        angular.forEach(villages, function(v) {
           var item = {
-            city: city,
-            district: d,
-            village: key
+            city: cityName,
+            district: districtName,
+            village: v.name
           }
           $scope.villages.push(item);
-        })
+        });
       });
     });
   });
