@@ -92,7 +92,6 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
         });
       });
     });
-    console.log(JSON.stringify(places, null, 2));
 
     angular.forEach(results[2].data, function(cityContent, cityName) {
       if (places[cityName] === true) {
@@ -121,11 +120,9 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
       }
     });
 
-    console.log($scope.districts);
-
     angular.forEach($scope.districts, function(districts, cityName) {
       angular.forEach(districts.contains, function(villages, districtName) {
-        angular.forEach(villages, function(v) {
+        angular.forEach(villages.contains, function(v) {
           var item = {
             city: cityName,
             district: districtName,
