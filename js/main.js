@@ -161,14 +161,14 @@ appyApp.controller('FormCtrl', function($scope, $http, $q, $window, $location, W
     delete params.addrDistrict;
     params.village = params.addrVillage.name;
     delete params.addrVillage;
+    params.hasQrcode = params.hasQrcode.toUpperCase();
+    params.hasFStamp = params.hasFStamp.toUpperCase();
     params.done = false;
 
     $scope.results.push(params);
-    var date = $scope.person.date;
-    var sn = $scope.person.serialnumber;
-    $scope.person = {};
-    $scope.person.date = date;
-    $scope.person.serialnumber = sn;
+    delete $scope.person.birthday;
+    delete $scope.person.id;
+    delete $scope.person.phone;
 
     $http.jsonp(url, config).success(function() {
       params.done = true;

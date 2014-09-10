@@ -137,23 +137,13 @@
         <div ng-class="{ 'has-error': proposalForm.hasQrcode.$invalid }">
           <label class="col-sm-2 control-label">有無 QRCode</label>
           <div class="col-sm-3">
-            <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasQrcode" name="hasQrcode" id="inlineRadio1" value="Y"> 有
-            </label>
-            <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasQrcode" name="hasQrcode" id="inlineRadio2" value="N"> 無
-            </label>
+            <input type="text" ng-pattern="/^[YNyn]$/" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.hasQrcode" class="form-control" name="hasQrcode" placeholder="有打 Y，沒有打 N" maxlength="1">
           </div>
         </div>
         <div ng-class="{ 'has-error': proposalForm.hasFStamp.$invalid }">
           <label class="col-sm-2 control-label">有無 F 章</label>
           <div class="col-sm-3">
-            <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasFStamp" name="hasFStamp" id="inlineRadio1" value="Y"> 有
-            </label>
-            <label class="radio-inline">
-              <input required type="radio" ng-model="person.hasFStamp" name="hasFStamp" id="inlineRadio2" value="N"> 無
-            </label>
+            <input type="text" ng-pattern="/^[YNyn]$/" required onClick="this.setSelectionRange(0, this.value.length)" ng-model="person.hasFStamp" class="form-control" name="hasFStamp" placeholder="有打 Y，沒有打 N" maxlength="1">
           </div>
         </div>
       </div>
